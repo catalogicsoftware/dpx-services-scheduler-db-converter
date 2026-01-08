@@ -59,7 +59,6 @@ RUN pyinstaller \
     --hidden-import=zoneinfo \
     --hidden-import=scheduler \
     --hidden-import=scheduler.usecases \
-    --hidden-import=scheduler.usecases.job \
     --collect-submodules=scheduler \
     apscheduler_migration.py && \
     chmod +x /build/dist/apscheduler_migration

@@ -1,6 +1,7 @@
 import sqlite3
 import json
 import os
+import sys
 import argparse
 import pickle
 import datetime
@@ -19,17 +20,9 @@ from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.schedulers.background import BackgroundScheduler
 from dateutil import parser
 from pathlib import Path
+from scheduler.usecases import job
+from scheduler.usecases import report
 
-# Import stub functions for APScheduler job restoration
-try:
-    from scheduler.usecases.job import run_schedule, report_schedule
-except ImportError:
-    # Fallback stub functions if scheduler module is not available
-    def run_schedule(*args, **kwargs):
-        pass
-
-    def report_schedule(*args, **kwargs):
-        pass
 
 DATE_TYPE = 'date'
 WEEKLY_TYPE = 'weekly'
@@ -244,6 +237,9 @@ def _schedule_to_dict(schedule):
     if 'individual_recipients' in schedule.kwargs:
         d['individual_recipients'] = schedule.kwargs['individual_recipients']
         d['action_kwargs'].pop('individual_recipients', None)
+    if 'emails' in schedule.kwargs:
+        d['emails'] = schedule.kwargs['emails']
+        d['action_kwargs'].pop('emails', None)
     return d
 
 def _get_schedule_type(schedule):
