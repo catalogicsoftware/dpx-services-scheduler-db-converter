@@ -237,9 +237,6 @@ def _schedule_to_dict(schedule):
     if 'individual_recipients' in schedule.kwargs:
         d['individual_recipients'] = schedule.kwargs['individual_recipients']
         d['action_kwargs'].pop('individual_recipients', None)
-    if 'emails' in schedule.kwargs:
-        d['emails'] = schedule.kwargs['emails']
-        d['action_kwargs'].pop('emails', None)
     return d
 
 def _get_schedule_type(schedule):
